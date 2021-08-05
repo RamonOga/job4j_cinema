@@ -7,21 +7,32 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Hello, world!</title>
 </head>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+
+<script>
+    function sendTest() {
+        let valueRadio = $('input[name="place"]:checked').val();
+        alert(valueRadio);
+    }
+</script>
 <script>
     function sendPay() {
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/pay',
+            url: 'http://localhost:8081/job4j_cinema/pay',
             data: JSON.stringify({
-                name: $('#orderList').val()
+                name: $('#orderList')
             }),
             dataType: 'json'
         }).done(function (data) {
-           // $('#emailList li:last').append(`<li>${data.name}</li>`)
+            console.log(data)
         }).fail(function (err) {
             console.log(err);
         });
@@ -46,18 +57,15 @@
 <body>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<div class="container" id = "orderList">
+
+<div class="container" >
+    <form id="orderList">
     <div class="row pt-3">
         <h4>
             Бронирование месте на сеанс
         </h4>
-        <table class="table table-bordered">
+        <table class="table table-bordered" >
             <thead>
             <tr>
                 <th style="width: 120px;">Ряд / Место</th>
@@ -70,27 +78,28 @@
             <tr>
                 <th>1</th>
                 <td><input type="radio" name="place" value="11"> Ряд 1, Место 1</td>
-                <td><input type="radio" name="place" value="11"> Ряд 1, Место 2</td>
-                <td><input type="radio" name="place" value="11"> Ряд 1, Место 3</td>
+                <td><input type="radio" name="place" value="12"> Ряд 1, Место 2</td>
+                <td><input type="radio" name="place" value="13"> Ряд 1, Место 3</td>
             </tr>
             <tr>
                 <th>2</th>
-                <td><input type="radio" name="place" value="11"> Ряд 2, Место 1</td>
-                <td><input type="radio" name="place" value="11"> Ряд 2, Место 2</td>
-                <td><input type="radio" name="place" value="11"> Ряд 2, Место 3</td>
+                <td><input type="radio" name="place" value="21"> Ряд 2, Место 1</td>
+                <td><input type="radio" name="place" value="22"> Ряд 2, Место 2</td>
+                <td><input type="radio" name="place" value="23"> Ряд 2, Место 3</td>
             </tr>
             <tr>
                 <th>3</th>
-                <td><input type="radio" name="place" value="11"> Ряд 3, Место 1</td>
-                <td><input type="radio" name="place" value="11"> Ряд 3, Место 2</td>
-                <td><input type="radio" name="place" value="11"> Ряд 3, Место 3</td>
+                <td><input type="radio" name="place" value="31"> Ряд 3, Место 1</td>
+                <td><input type="radio" name="place" value="32"> Ряд 3, Место 2</td>
+                <td><input type="radio" name="place" value="33"> Ряд 3, Место 3</td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="row float-right">
-        <button type="button" class="btn btn-success" onclick="sendPay()">Оплатить</button>
+        <button type="button" class="btn btn-success" onclick="sendTest()">Оплатить</button>
     </div>
+        </form>
 </div>
 </body>
 </html>

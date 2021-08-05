@@ -35,6 +35,8 @@ public class HallServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String input = GSON.fromJson(req.getReader(), String.class);
+        System.out.println(input);
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(inputs);
