@@ -22,7 +22,7 @@
         {
             let valueRadio = $('input[name="place"]:checked').val();
             $.ajax({
-                url: "ajax_quest.php",
+                url: "http://localhost:8080/job4j_cinema/pay",
                 dataType: "json",
                 method: "POST",
                 data: {"place": valueRadio},
