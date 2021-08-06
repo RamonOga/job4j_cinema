@@ -18,17 +18,30 @@
 
 <script>
     function sendTest() {
-        let valueRadio = $('input[name="place"]:checked').val();
-        alert(valueRadio);
+        $(document).ready(function()
+        {
+            let valueRadio = $('input[name="place"]:checked').val();
+            $.ajax({
+                url: "ajax_quest.php",
+                dataType: "json",
+                method: "POST",
+                data: {"place": valueRadio},
+                success: function(data) {
+
+                    console.log(data);
+                }
+            });
+        });
     }
 </script>
 <script>
     function sendPay() {
+        let valueRadio = $('input[name="place"]:checked').val();
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8081/job4j_cinema/pay',
+            url: 'http://localhost:8080/job4j_cinema/pay',
             data: JSON.stringify({
-                name: $('#orderList')
+                name: $(valueRadio.val())
             }),
             dataType: 'json'
         }).done(function (data) {

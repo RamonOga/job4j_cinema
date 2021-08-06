@@ -1,4 +1,20 @@
 /*
+
+$(document).ready(function()
+{
+
+    $.ajax({
+      url: "ajax_quest.php",
+        dataType: "json",
+       	method: "POST",
+    	data: {"place": value},
+       	success: function(data) {
+
+ 		console.log(data);
+       }
+ });
+});
+
 <script>
     function sendGreeting() {
     $.ajax({
