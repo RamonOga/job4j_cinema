@@ -12,45 +12,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+    <script src="scripts.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Hello, world!</title>
 </head>
 
-<script>
-    function sendTest() {
-        $(document).ready(function()
-        {
-            let valueRadio = $('input[name="place"]:checked').val();
-            $.ajax({
-                url: "http://localhost:8080/job4j_cinema/pay",
-                dataType: "json",
-                method: "POST",
-                data: {"place": valueRadio},
-                success: function(data) {
 
-                    console.log(data);
-                }
-            });
-        });
-    }
-</script>
-<script>
-    function sendPay() {
-        let valueRadio = $('input[name="place"]:checked').val();
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/job4j_cinema/pay',
-            data: JSON.stringify({
-                name: $(valueRadio.val())
-            }),
-            dataType: 'json'
-        }).done(function (data) {
-            console.log(data)
-        }).fail(function (err) {
-            console.log(err);
-        });
-    }
-</script>
+
 
 <!--<script>
     $(document).ready(function () {
@@ -110,7 +78,7 @@
         </table>
     </div>
     <div class="row float-right">
-        <button type="button" class="btn btn-success" onclick="sendTest()">Оплатить</button>
+        <button type="button" class="btn btn-success" onclick="goPayment()">Оплатить</button>
     </div>
         </form>
 </div>
