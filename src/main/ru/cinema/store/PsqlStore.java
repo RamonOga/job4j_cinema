@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class PsqlStore implements Store{
@@ -95,5 +96,51 @@ public class PsqlStore implements Store{
             e.printStackTrace();
         }
         return id;
+    }
+
+    @Override
+    public Account findAccByEmail(String email) {
+        Account account = null;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement ps = connection.prepareStatement("select * from account where email = (?)")
+        ) {
+            ps.setString(1, email);
+            ps.execute();
+            try (ResultSet rs = ps.getResultSet()) {
+                if (rs.next()) {
+                    account = new Account(rs.getInt("id"),
+                            rs.getString("username"),
+                            rs.getString("email"),
+                            rs.getString("phone")
+                            );
+                }
+            }
+         } catch (SQLException sqle) {
+
+        }
+        return account;
+    }
+
+    @Override
+    public Account findAccByPhone(String phone) {
+        Account account = null;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement ps = connection.prepareStatement("select * from account where phone = (?)")
+        ) {
+            ps.setString(1, phone);
+            ps.execute();
+            try (ResultSet rs = ps.getResultSet()) {
+                if (rs.next()) {
+                    account = new Account(rs.getInt("id"),
+                            rs.getString("username"),
+                            rs.getString("email"),
+                            rs.getString("phone")
+                    );
+                }
+            }
+        } catch (SQLException sqle) {
+
+        }
+        return account;
     }
 }

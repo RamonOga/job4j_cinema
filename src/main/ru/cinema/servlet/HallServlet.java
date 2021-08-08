@@ -28,20 +28,23 @@ public class HallServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Store store = PsqlStore.instOf();
+        Account account = null;
         int row = Integer.parseInt(req.getParameter("row"));
         int place = Integer.parseInt(req.getParameter("place"));
         String userName = req.getParameter("username");
         String phone = req.getParameter("phone");
-        String email = req.getParameter("phone");
+        String email = req.getParameter("email");
         int id = store.addAccount(new Account(0, userName, phone, email));
-        store.addTicket(new Ticket(0,  1, row, place, id));
-    /*    String tmp = req.getReader()
-                .lines()
-                .collect(Collectors
-                        .joining(System.lineSeparator()));
-        System.out.println(tmp);
-        System.out.println("POST");
-        inputs.add(tmp.split("=")[1]);*/
+        if (id == -1) {
+            account = store.findAccByPhone(phone);
+            if (account == null) {
+                account = store.findAccByEmail(email);
+            }
+            store.addTicket(new Ticket(0,  1, row, place, account.getId()));
+        } else {
+            store.addTicket(new Ticket(0,  1, row, place, id));
+        }
+
     }
 
     @Override
