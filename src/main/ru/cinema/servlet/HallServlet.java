@@ -2,6 +2,10 @@ package ru.cinema.servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import ru.cinema.model.Account;
+import ru.cinema.model.Ticket;
+import ru.cinema.store.PsqlStore;
+import ru.cinema.store.Store;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,13 +27,21 @@ public class HallServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String tmp = req.getReader()
+        Store store = PsqlStore.instOf();
+        int row = Integer.parseInt(req.getParameter("row"));
+        int place = Integer.parseInt(req.getParameter("place"));
+        String userName = req.getParameter("username");
+        String phone = req.getParameter("phone");
+        String email = req.getParameter("phone");
+        int id = store.addAccount(new Account(0, userName, phone, email));
+        store.addTicket(new Ticket(0,  1, row, place, id));
+    /*    String tmp = req.getReader()
                 .lines()
                 .collect(Collectors
                         .joining(System.lineSeparator()));
         System.out.println(tmp);
         System.out.println("POST");
-        inputs.add(tmp.split("=")[1]);
+        inputs.add(tmp.split("=")[1]);*/
     }
 
     @Override
