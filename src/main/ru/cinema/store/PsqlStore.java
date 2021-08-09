@@ -6,12 +6,13 @@ import ru.cinema.model.Ticket;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PsqlStore implements Store{
     private final BasicDataSource pool =new BasicDataSource();
@@ -142,5 +143,40 @@ public class PsqlStore implements Store{
 
         }
         return account;
+    }
+
+    @Override
+    public List<Ticket> findAllTickets() {
+        List<Ticket> tickets = new CopyOnWriteArrayList<>();
+        try(Connection connection = pool.getConnection();
+            PreparedStatement ps = connection.prepareStatement("select * from ticket")
+        ) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    tickets.add(new Ticket(rs.getInt("id"),
+                            rs.getInt("session_id"),
+                            rs.getInt("row"),
+                            rs.getInt("cell"),
+                            rs.getInt("account_id")
+                    ));
+                }
+            }
+        } catch (SQLException sqle) {
+
+        }
+        return tickets;
+    }
+
+    @Override
+    public List<Integer> getTakenList() {
+        List<Integer> noEmpty = new CopyOnWriteArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        for(Ticket ticket : PsqlStore.instOf().findAllTickets()) {
+            sb.append(ticket.getRow());
+            sb.append(ticket.getCell());
+            noEmpty.add(Integer.parseInt(sb.toString()));
+            sb.delete(0, sb.length());
+        }
+        return noEmpty;
     }
 }

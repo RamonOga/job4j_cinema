@@ -34,4 +34,15 @@ public class Ticket {
     public int getAccount_Id() {
         return account_Id;
     }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", sessionID=" + sessionID +
+                ", row=" + row +
+                ", cell=" + cell +
+                ", account_Id=" + account_Id +
+                '}';
+    }
 }

@@ -13,6 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="scripts.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -21,12 +22,50 @@
 </head>
 
 <body>
+<script>$('document').ready(function () {
+    showTakenPlaces();
+    setInterval(() => {
+        console.log('After timeout')
+    }, 10000)
+});
+    function showTakenPlaces () {
+        $.ajax({
+            url : "http://localhost:8081/job4j_cinema/pay",
+            async: true,
+            method : "GET",
+            dataType : "json",
+            success : function (data) {
+                    for (let i = 0; i < data.length; i++) {
+                        let row = data[i]['row'].toString();
+                        let cell = data[i]['cell'].toString();
+                        let place = "input:radio#" + row + cell;
+                        $('input[name="place"]').show().filter(function(){
+                            return $(this).attr('value').endsWith(row + cell);
+                        }).parents('td').replaceWith('<td>Место занято</td>');
+                    }
+
+
+            }
+        });
+    }
+</script>
+
+<script>
+    function disabled() {
+        $("input:radio#place").attr('disables', true);
+        console.log("!!!")
+    }
+</script>
+
+
 <div class="container" >
     <form id="orderList">
     <div class="row pt-3">
         <h4>
-            Бронирование месте на сеанс1!!
+            Бронирование месте на сеанс
         </h4>
+        <p id="content_p"></p>
+
         <table class="table table-bordered" >
             <thead>
             <tr>
